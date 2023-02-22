@@ -1,17 +1,18 @@
 const allMatches = document.querySelector(".all-matches");
-const match = document.querySelector(".match");
-const reset = document.querySelector(".lws-reset");
 const addMatch = document.querySelector(".lws-addMatch");
 const deleteMatch = document.querySelector(".lws-delete");
+const reset = document.querySelector(".lws-reset");
 
 const initialState = [
-    { i: 2, d: 0 },
+    { i: 0, d: 0 },
 ]
 
 // actions
 const ADD_MATCH = () => ({ type: "ADD_MATCH", });
 const DELETE_MATCH = (index) => ({ type: "DELETE_MATCH", payload: { ind: index } });
 const RESET = () => ({ type: "RESET" });
+const INCREMENT = (index, value) => ({ type: "INCREMENT", payload: { ind: index, value: parseInt(value) } });
+const DECREMENT = (index, value) => ({ type: "DECREMENT", payload: { ind: index, value: parseInt(value) } });
 
 /**
  * create reducer
@@ -69,11 +70,14 @@ reset.addEventListener("click", () => {
     store.dispatch(RESET())
 })
 
-// total counter
-function totalCounter(obj) {
-    return obj.i + obj.d;
-}
 
+
+/**
+ * Match creator
+ * @param {number} index 
+ * @param {object} state item on state
+ * @returns {object} HTMLElement
+ */
 function createMatch(index = 0, state = { i: 5, d: 5 }) {
     function createWrapper(index = 0) {
         function createButton() {
@@ -102,6 +106,12 @@ function createMatch(index = 0, state = { i: 5, d: 5 }) {
     }
 
     function formContainer() {
+        function minValue(e) {
+            if (e.target.value < 0) {
+                e.target.value = 0
+            }
+        }
+
         function incrementForm() {
             const h4 = document.createElement('h4');
             h4.innerHTML = 'Increment';
@@ -111,6 +121,7 @@ function createMatch(index = 0, state = { i: 5, d: 5 }) {
             input.name = "increment";
             input.type = "number";
             input.value = state.i;
+            input.addEventListener('change', minValue)
 
             const form = document.createElement('FORM');
             form.className = "incrementForm";
@@ -120,13 +131,7 @@ function createMatch(index = 0, state = { i: 5, d: 5 }) {
                 e.preventDefault();
                 const formData = new FormData(form);
                 const value = formData.get("increment");
-                store.dispatch({
-                    type: "INCREMENT",
-                    payload: {
-                        ind: index,
-                        value: parseInt(value)
-                    }
-                })
+                store.dispatch(INCREMENT(index, value))
                 console.log(value);
             })
             return form;
@@ -141,6 +146,7 @@ function createMatch(index = 0, state = { i: 5, d: 5 }) {
             input.name = "decrement";
             input.type = "number";
             input.value = state.d;
+            input.addEventListener('change', minValue)
 
             const form = document.createElement('FORM');
             form.className = "decrementForm";
@@ -150,13 +156,7 @@ function createMatch(index = 0, state = { i: 5, d: 5 }) {
                 e.preventDefault();
                 const formData = new FormData(form);
                 const value = formData.get("decrement");
-                store.dispatch({
-                    type: "DECREMENT",
-                    payload: {
-                        ind: index,
-                        value: parseInt(value)
-                    }
-                })
+                store.dispatch(store.dispatch(DECREMENT(index, value)))
                 console.log(value);
             })
             return form;
@@ -169,10 +169,17 @@ function createMatch(index = 0, state = { i: 5, d: 5 }) {
         return container;
     }
 
-    function createTotal(amount = 10) {
+    function createTotal() {
+        // total counter
+        function totalCounter(obj) {
+            let total = obj.i - obj.d
+            if (total < 0) return 0;
+            return total;
+        }
+
         const h2 = document.createElement('H2');
         h2.className = "lws-singleResult";
-        h2.innerHTML = amount;
+        h2.innerHTML = totalCounter(state);
 
         const total = document.createElement('DIV');
         total.className = "numbers";
@@ -182,10 +189,10 @@ function createMatch(index = 0, state = { i: 5, d: 5 }) {
 
     const match = document.createElement('DIV');
     match.className = "match";
-    match.id = index;
+    // match.id = index;
     match.append(createWrapper(index));
     match.append(formContainer());
-    match.append(createTotal(totalCounter(state)));
+    match.append(createTotal());
     return match;
 }
 
