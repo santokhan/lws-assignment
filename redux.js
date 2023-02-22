@@ -160,7 +160,7 @@ function createMatch(index = 0, state = { i: 5, d: 5 }) {
             return form;
         }
 
-        const container = document.createElement('div');
+        const container = document.createElement('DIV');
         container.className = "inc-dec";
         container.append(incrementForm());
         container.append(decrementForm());
