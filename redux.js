@@ -132,7 +132,6 @@ function createMatch(index = 0, state = { i: 5, d: 5 }) {
                 const formData = new FormData(form);
                 const value = formData.get("increment");
                 store.dispatch(INCREMENT(index, value))
-                console.log(value);
             })
             return form;
         }
@@ -157,7 +156,6 @@ function createMatch(index = 0, state = { i: 5, d: 5 }) {
                 const formData = new FormData(form);
                 const value = formData.get("decrement");
                 store.dispatch(store.dispatch(DECREMENT(index, value)))
-                console.log(value);
             })
             return form;
         }
