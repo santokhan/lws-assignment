@@ -26,7 +26,6 @@ const dummyData = {
     to: "Sylhet",
 }
 
-
 function Form({ state, dispatchAdd }) {
     const [formData, setformData] = useState({})
 
