@@ -7,7 +7,7 @@ const initialState = [
     { i: 0, d: 0 },
 ]
 
-// actions
+// action types
 const ADD_MATCH = () => ({ type: "ADD_MATCH", });
 const DELETE_MATCH = (index) => ({ type: "DELETE_MATCH", payload: { ind: index } });
 const RESET = () => ({ type: "RESET" });
@@ -15,7 +15,6 @@ const INCREMENT = (index, value) => ({ type: "INCREMENT", payload: { ind: index,
 const DECREMENT = (index, value) => ({ type: "DECREMENT", payload: { ind: index, value: parseInt(value) } });
 
 /**
- * create reducer
  * @param {object} state 
  * @param {object} action 
  * @returns {object} state or updated state
@@ -24,7 +23,8 @@ function matchReduer(state = initialState, action) {
     if (action.type === "ADD_MATCH") {
         return [...state, { i: 0, d: 0 }];
     } else if (action.type === "DELETE_MATCH") {
-        return state.filter(e => state[action.payload.ind] != e);
+        // return state.filter((e,i) => state[action.payload.ind] != e);
+        return state.filter((e,i) => action.payload.ind !== i);
     } else if (action.type === "INCREMENT") {
         let updatedState = [...state];
         updatedState[action.payload.ind].i = action.payload.value;
