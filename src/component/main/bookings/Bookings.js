@@ -10,6 +10,7 @@ export default function Bookings() {
         dispatch(DELETE_BOOKINGS(index));
     }
 
+    if (bookings.length === 0) return "";
     return (
         <div className="table-container">
             <table className="booking-table">
@@ -38,10 +39,10 @@ export default function Bookings() {
                                 <p className="lws-bookedDate">{e.date}</p>
                             </ColCenter>
                             <ColCenter className="px-6 py-4 text-center">
-                                <p className="lws-bookedGustes">{e.guest}</p>
+                                <p className="lws-bookedGustes">{e.guests}</p>
                             </ColCenter>
                             <ColCenter className="px-6 py-4 text-center">
-                                <span className="lws-bookedClass"> {e.class} </span>
+                                <span className="lws-bookedClass"> {e.ticketClass} </span>
                             </ColCenter>
                             <ColCenter className="px-6 py-4 text-center">
                                 <div className="flex justify-center gap-4">
