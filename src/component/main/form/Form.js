@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { connect } from "react-redux";
 // 
-import { ADD_BOOKINGS, DELETE_BOOKINGS } from "../../../redux/reducer/bookings";
+import { ADD_BOOKINGS, } from "../../../redux/reducer/bookings";
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -17,14 +17,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
-
-const dummyData = {
-    date: "11-01-23",
-    from: "Dhaka",
-    guest: 2,
-    ticketClass: "Business",
-    to: "Sylhet",
-}
 
 function Form({ state, dispatchAdd }) {
     const [formData, setformData] = useState({})
@@ -155,3 +147,12 @@ function Form({ state, dispatchAdd }) {
 
 export default connector(Form);
 
+
+
+// const dummyData = {
+//     date: "11-01-23",
+//     from: "Dhaka",
+//     guest: 2,
+//     ticketClass: "Business",
+//     to: "Sylhet",
+// }

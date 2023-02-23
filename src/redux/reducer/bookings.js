@@ -1,14 +1,3 @@
-const initialArr = {
-    bookings: [],
-    data: {
-        date: "11-01-23",
-        from: "Dhaka",
-        guest: 2,
-        ticketClass: "Business",
-        to: "Sylhet",
-    }
-}
-
 const initialValue = [];
 
 // action types
@@ -33,3 +22,13 @@ export default function bookingsReducer(state = initialValue, action) {
     }
 }
 
+// const initialArr = {
+//     bookings: [],
+//     data: {
+//         date: "11-01-23",
+//         from: "Dhaka",
+//         guest: 2,
+//         ticketClass: "Business",
+//         to: "Sylhet",
+//     }
+// }
