@@ -1,30 +1,15 @@
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { DELETE_BOOKINGS } from '../../../redux/reducer/bookings';
-// 
 import { Row, Col, ColCenter } from './Layout';
 
-const dummy = [
-    { from: "Dhaka", to: "Sylhet", date: "11-01-23", guest: 2, class: "Business" },
-    { from: "Dhaka", to: "Sylhet", date: "11-01-23", guest: 2, class: "Business" },
-    { from: "Dhaka", to: "Sylhet", date: "11-01-23", guest: 2, class: "Business" },
-]
+export default function Bookings() {
+    const bookings = useSelector(state => state);
+    const dispatch = useDispatch();
 
-const mapStateToProps = (state, ownProps) => {
-    return {
-        state: state
+    function handleDelete(index) {
+        dispatch(DELETE_BOOKINGS(index));
     }
-}
-const mapDispatchToProps = (dispatch, ownProps) => {
-    return {
-        dispatchDelete: (index) => {
-            dispatch(DELETE_BOOKINGS(index));
-        }
-    }
-}
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-function Bookings({ data = dummy, state, dispatchDelete }) {
     return (
         <div className="table-container">
             <table className="booking-table">
@@ -39,31 +24,28 @@ function Bookings({ data = dummy, state, dispatchDelete }) {
                     </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-300/20" id="lws-previewBooked">
-                    {state.map((e, i) => (
+                    {bookings.map((e, i) => (
                         <Row key={i}>
                             <Col>
                                 <div className="flex items-center space-x-3">
-                                    <p className="lws-bookedFrom">{e?.from}</p>
+                                    <p className="lws-bookedFrom">{e.from}</p>
                                 </div>
                             </Col>
                             <Col>
-                                <p className="lws-bookedTo">{e?.to}</p>
+                                <p className="lws-bookedTo">{e.to}</p>
                             </Col>
                             <ColCenter className="px-6 py-4 text-center">
-                                <p className="lws-bookedDate">{e?.date}</p>
+                                <p className="lws-bookedDate">{e.date}</p>
                             </ColCenter>
                             <ColCenter className="px-6 py-4 text-center">
-                                <p className="lws-bookedGustes">{e?.guest}</p>
+                                <p className="lws-bookedGustes">{e.guest}</p>
                             </ColCenter>
                             <ColCenter className="px-6 py-4 text-center">
-                                <span className="lws-bookedClass"> {e?.class} </span>
+                                <span className="lws-bookedClass"> {e.class} </span>
                             </ColCenter>
                             <ColCenter className="px-6 py-4 text-center">
                                 <div className="flex justify-center gap-4">
-                                    <button className="lws-remove" onClick={() => {
-                                        // deleteHandler(i, data);
-                                        dispatchDelete(i);
-                                    }}>
+                                    <button className="lws-remove" onClick={() => { handleDelete(i) }}>
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             fill="none"
@@ -89,4 +71,4 @@ function Bookings({ data = dummy, state, dispatchDelete }) {
     )
 }
 
-export default connector(Bookings)
+

@@ -1,25 +1,12 @@
 import { useState } from "react";
-import { connect } from "react-redux";
-// 
-import { ADD_BOOKINGS, } from "../../../redux/reducer/bookings";
+import { useDispatch, useSelector } from "react-redux";
+import { ADD_BOOKINGS } from "../../../redux/reducer/bookings";
 
-const mapStateToProps = (state, ownProps) => {
-    return {
-        state: { ...state }
-    }
-}
-const mapDispatchToProps = (dispatch, ownProps) => {
-    return {
-        dispatchAdd: (data) => {
-            dispatch(ADD_BOOKINGS(data))
-        },
-    }
-}
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-function Form({ state, dispatchAdd }) {
-    const [formData, setformData] = useState({})
+export default function Form() {
+    const [formData, setformData] = useState({ from: "", to: "", date: "", guests: "", ticketClass: "" });
+    const bookings = useSelector(state => state);
+    const dispatch = useDispatch();
 
     function handleChange(e) {
         const { name, value } = e.target
@@ -28,10 +15,12 @@ function Form({ state, dispatchAdd }) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        if (state.length < 3) {
-            dispatchAdd(formData);
+        if (bookings.length < 3) {
+            dispatch(ADD_BOOKINGS(formData));
         }
     }
+
+    const disabled = bookings.length < 3 ? false : true
 
     return (
         <div className="mt-[160px] mx-4 md:mt-[160px] relative">
@@ -48,7 +37,7 @@ function Form({ state, dispatchAdd }) {
                                 id="lws-from"
                                 required={true}
                             >
-                                <option value="" hidden="">Please Select</option>
+                                <option defaultValue={formData.from} hidden="">Please Select</option>
                                 <option>Dhaka</option>
                                 <option>Sylhet</option>
                                 <option>Saidpur</option>
@@ -67,7 +56,7 @@ function Form({ state, dispatchAdd }) {
                                 id="lws-to"
                                 required={true}
                             >
-                                <option value="" hidden="">Please Select</option>
+                                <option defaultValue={formData.to} hidden="">Please Select</option>
                                 <option>Dhaka</option>
                                 <option>Sylhet</option>
                                 <option>Saidpur</option>
@@ -80,6 +69,7 @@ function Form({ state, dispatchAdd }) {
                         <input
                             onChange={handleChange}
                             type="date"
+                            defaultValue={formData.date}
                             className="outline-none px-2 py-2 w-full date"
                             name="date"
                             id="lws-date"
@@ -93,6 +83,7 @@ function Form({ state, dispatchAdd }) {
                             <select
                                 onChange={handleChange}
                                 className="outline-none px-2 py-2 w-full"
+                                defaultValue={formData.guests}
                                 name="guests"
                                 id="lws-guests"
                                 required={true}
@@ -112,6 +103,7 @@ function Form({ state, dispatchAdd }) {
                             <select
                                 onChange={handleChange}
                                 className="outline-none px-2 py-2 w-full"
+                                defaultValue={formData.ticketClass}
                                 name="ticketClass"
                                 id="lws-ticketClass"
                                 required={true}
@@ -122,7 +114,7 @@ function Form({ state, dispatchAdd }) {
                             </select>
                         </div>
                     </div>
-                    <button className="addCity" type="submit" id="lws-addCity" >
+                    <button className="addCity" type="submit" id="lws-addCity" disabled={disabled}>
                         <svg
                             width="15px"
                             height="15px"
@@ -145,14 +137,3 @@ function Form({ state, dispatchAdd }) {
     )
 }
 
-export default connector(Form);
-
-
-
-// const dummyData = {
-//     date: "11-01-23",
-//     from: "Dhaka",
-//     guest: 2,
-//     ticketClass: "Business",
-//     to: "Sylhet",
-// }

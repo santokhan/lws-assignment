@@ -381,7 +381,13 @@ Make sure disabled buttons don't get the pointer cursor.
 */
 
 :disabled {
-  cursor: default;
+  background-color: rgba(0, 0, 0, 0.2) !important;
+  cursor: default !important;
+}
+
+:disabled:hover {
+  box-shadow: none !important;
+  color: rgb(120 11 205 / var(--tw-text-opacity)) !important;
 }
 
 /*
