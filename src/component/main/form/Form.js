@@ -2,9 +2,13 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ADD_BOOKINGS } from "../../../redux/reducer/bookings";
 
+import mapIcon from '../../../assets/img/icons/Frame.svg'
+import vector1 from '../../../assets/img/icons/Vector (1).svg';
+import vector3 from '../../../assets/img/icons/Vector (3).svg';
 
 export default function Form() {
-    const [formData, setformData] = useState({ from: "", to: "", date: "", guests: "", ticketClass: "" });
+    const initialData={ from: "", to: "", date: "", guests: "", ticketClass: "" }
+    const [formData, setformData] = useState(initialData);
     const bookings = useSelector(state => state);
     const dispatch = useDispatch();
 
@@ -16,8 +20,9 @@ export default function Form() {
     function handleSubmit(e) {
         e.preventDefault();
         if (bookings.length < 3) {
-            dispatch(ADD_BOOKINGS(formData));
+            dispatch(ADD_BOOKINGS(formData));            
         }
+        setformData(initialData);
     }
 
     const disabled = bookings.length < 3 ? false : true
@@ -29,38 +34,40 @@ export default function Form() {
                     <div className="des-from">
                         <p>Destination From</p>
                         <div className="flex flex-row">
-                            <img src="./img/icons/Frame.svg" alt="" />
+                            <img src={mapIcon} alt="from" />
                             <select
                                 onChange={handleChange}
                                 className="outline-none px-2 py-2 w-full"
                                 name="from"
                                 id="lws-from"
                                 required={true}
+                                value={formData.from}
                             >
-                                <option defaultValue={formData.from} hidden="">Please Select</option>
-                                <option>Dhaka</option>
-                                <option>Sylhet</option>
-                                <option>Saidpur</option>
-                                <option>Cox's Bazar</option>
+                                <option value="" hidden="">Please Select</option>
+                                <option value="Dhaka">Dhaka</option>
+                                <option value="Sylhet">Sylhet</option>
+                                <option value="Saidpur">Saidpur</option>
+                                <option value="Cox's Bazar">Cox's Bazar</option>
                             </select>
                         </div>
                     </div>
                     <div className="des-from">
                         <p>Destination To</p>
                         <div className="flex flex-row">
-                            <img src="./img/icons/Frame.svg" alt="" />
+                            <img src={mapIcon} alt="to" />
                             <select
                                 onChange={handleChange}
                                 className="outline-none px-2 py-2 w-full"
                                 name="to"
                                 id="lws-to"
                                 required={true}
+                                value={formData.to}
                             >
-                                <option defaultValue={formData.to} hidden="">Please Select</option>
-                                <option>Dhaka</option>
-                                <option>Sylhet</option>
-                                <option>Saidpur</option>
-                                <option>Cox's Bazar</option>
+                             <option value="" hidden="">Please Select</option>
+                                <option value="Dhaka">Dhaka</option>
+                                <option value="Sylhet">Sylhet</option>
+                                <option value="Saidpur">Saidpur</option>
+                                <option value="Cox's Bazar">Cox's Bazar</option>
                             </select>
                         </div>
                     </div>
@@ -69,24 +76,24 @@ export default function Form() {
                         <input
                             onChange={handleChange}
                             type="date"
-                            defaultValue={formData.date}
                             className="outline-none px-2 py-2 w-full date"
                             name="date"
                             id="lws-date"
                             required={true}
+                            value={formData.date}
                         />
                     </div>
                     <div className="des-from">
                         <p>Guests</p>
                         <div className="flex flex-row">
-                            <img src="./img/icons/Vector (1).svg" alt="" />
+                            <img src={vector1} alt="guests" />
                             <select
                                 onChange={handleChange}
                                 className="outline-none px-2 py-2 w-full"
-                                defaultValue={formData.guests}
                                 name="guests"
                                 id="lws-guests"
                                 required={true}
+                                value={formData.guests}
                             >
                                 <option value="" hidden="">Please Select</option>
                                 <option value={1}>1 Person</option>
@@ -99,18 +106,18 @@ export default function Form() {
                     <div className="des-from !border-r-0">
                         <p>Class</p>
                         <div className="flex flex-row">
-                            <img src="./img/icons/Vector (3).svg" alt="" />
+                            <img src={vector3} alt="class" />
                             <select
                                 onChange={handleChange}
                                 className="outline-none px-2 py-2 w-full"
-                                defaultValue={formData.ticketClass}
                                 name="ticketClass"
                                 id="lws-ticketClass"
                                 required={true}
+                                value={formData.ticketClass}
                             >
                                 <option value="" hidden="">Please Select</option>
-                                <option>Business</option>
-                                <option>Economy</option>
+                                <option value="Business">Business</option>
+                                <option value="Economy">Economy</option>
                             </select>
                         </div>
                     </div>
