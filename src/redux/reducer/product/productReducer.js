@@ -1,4 +1,4 @@
-import { ADD_PRODUCT, DECREMENT_PRODUCT, INCREMENT_PRODUCT, REMOVE_PRODUCT } from "./actionTypes";
+import { ADD_PRODUCT, DECREMENT_PRODUCT, INCREMENT_PRODUCT, REMOVE_PRODUCT, RESTORE_FROM_CART } from "./actionTypes";
 import initialState from "./initialState";
 
 export const productReducer = (state = initialState, action) => {
@@ -34,6 +34,18 @@ export const productReducer = (state = initialState, action) => {
           return {
             ...e,
             quantity: parseInt(e.quantity) - 1
+          };
+        } else {
+          return e;
+        }
+      })
+
+    case RESTORE_FROM_CART:
+      return state.map((e) => {
+        if (e.id == action.payload.id) {
+          return {
+            ...e,
+            quantity: e.quantity + action.payload.quantity
           };
         } else {
           return e;

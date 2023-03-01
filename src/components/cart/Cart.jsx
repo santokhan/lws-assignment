@@ -7,6 +7,7 @@ import {
 import {
   decrementProduct,
   incrementProduct,
+  restoreFromCart,
 } from "../../redux/reducer/product/actions";
 
 function totalCount(cart) {
@@ -17,6 +18,7 @@ function totalCount(cart) {
 }
 
 export default function Cart() {
+  const product = useSelector((state) => state.product);
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
@@ -35,8 +37,21 @@ export default function Cart() {
     // product
     dispatch(incrementProduct(id));
   }
-  function handleRemoveCart(id) {
-    dispatch(removeCart(id));
+
+  function handleRemoveCart(item) {
+    dispatch(removeCart(item.id));
+    // restore
+    dispatch(restoreFromCart(item));
+  }
+
+  function maxLimit(state, id) {
+    let quantity = 0;
+    state.forEach((e) => {
+      if (e.id == id) {
+        quantity = e.quantity;
+      }
+    });
+    return quantity;
   }
 
   return (
@@ -67,6 +82,9 @@ export default function Cart() {
                       <div className="flex items-center space-x-4">
                         <button
                           className="lws-incrementQuantity"
+                          disabled={
+                            quantity < maxLimit(product, id) ? false : true
+                          }
                           onClick={() => {
                             incrementQuantity(id);
                           }}
@@ -76,7 +94,7 @@ export default function Cart() {
                         <span className="lws-cartQuantity">{quantity}</span>
                         <button
                           className="lws-decrementQuantity"
-                          disabled={quantity > 0 ? false : true}
+                          disabled={quantity > 1 ? false : true}
                           onClick={() => {
                             decrementQuantity(id);
                           }}
@@ -96,7 +114,7 @@ export default function Cart() {
                       <button
                         className="lws-removeFromCart"
                         onClick={() => {
-                          handleRemoveCart(id);
+                          handleRemoveCart(item);
                         }}
                       >
                         <i className="text-lg text-red-400 fa-solid fa-trash" />

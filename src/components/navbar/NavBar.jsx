@@ -5,6 +5,10 @@ import logo from "../../assets/images/logo.png";
 export default function NavBar() {
   const state = useSelector((state) => state.cart);
 
+  function totalCart(state) {
+    return state.reduce((acc, crnt) => acc + crnt.quantity, 0);
+  }
+
   return (
     <nav className="bg-[#171C2A] text-white py-4">
       <div className="navBar">
@@ -17,7 +21,7 @@ export default function NavBar() {
           </Link>
           <Link to="/cart" className="navCart" id="lws-cart">
             <i className="text-xl fa-sharp fa-solid fa-bag-shopping" />
-            <span id="lws-totalCart">{state.length}</span>
+            <span id="lws-totalCart">{totalCart(state)}</span>
           </Link>
         </div>
       </div>

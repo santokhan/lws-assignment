@@ -5,26 +5,46 @@ const addQuantity = (arr, id) => arr.map(e => {
   if (e.id === id) e.quantity = e.quantity + 1;
   return { ...e };
 })
-
-const compare = (arr, id) => arr.reduce((acc, crnt) => acc = crnt.id === id ? true : false, false)
-
+const compare = (arr, id) => {
+  let status = false;
+  arr.forEach((e, i) => {
+    if (e.id === id) {
+      return true;
+    } else {
+      return false;
+    }
+  })
+  return status;
+}
 const addCartInitial = list => ({ ...list, quantity: 1 });
 
 export const cartReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_TO_CART:
       if (state.length > 0) {
-        if (compare(state, action.payload.id)) {
-          // add quantity
-          alert("add quantity")
-          return [...addQuantity(state, action.payload.id)]
+        let flag = false;
+        state.forEach(e => {
+          if (e.id == action.payload.id) {
+            flag = true;
+          }
+        });
+
+        if (flag) {
+          return state.map(e => {
+            if (e.id == action.payload.id) {
+              return { ...e, quantity: e.quantity + 1 };
+            } else {
+              return e;
+            }
+          })
         } else {
-          // add product to cart with quantity 1
-          return [...state, { ...action.payload, quantity: 1 }]
+          let { quantity } = action.payload
+          return [...state, { ...action.payload, quantity: quantity + 1 }]
         }
+
       } else {
-        // when state.length === 0, add first product with quantity 1
-        return [{ ...action.payload, quantity: 1 }]
+        // when state.length === 0, with initial quantity = 1
+        return [{ ...action.payload, quantity: 1 }];
       }
 
     case INCREMENT_CART:

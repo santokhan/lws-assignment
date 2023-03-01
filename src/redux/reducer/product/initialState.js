@@ -7,6 +7,14 @@ const dummyData = {
   src: "https://i.dummyjson.com/data/products/59/thumbnail.jpg",
 };
 
+const structure = [{
+  cart: 10,
+  id: 0,
+  name: 0,
+  src: "",
+  stock: 20,
+}]
+
 const initialState = [];
 
 export default initialState;

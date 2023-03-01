@@ -31,28 +31,29 @@ const state = [{
 },
 ]
 
-function addQuantity(arr, id) {
-    return arr.map(e => {
-        if (e.id === id) {
-            return { ...e, quantity: e.quantity + 1 }
-        } else {
-            return e;
-        }
-    })
-}
 
-function compare(arr, id) {
-    let status = false
-    arr.forEach(e => {
-        if (e.id === id) {
-            status = true
+
+let obj = {}
+
+// state.forEach((e, i) => {
+//     let prev = obj[e.id] || 0;
+//     obj[e.id] = e.quantity + prev;
+// })
+
+let arr = state.filter((e) => {
+    let status = false;
+    state.forEach(in_a => {
+        if (e.id !== in_a.id) {
+            status = true;
         } else {
             status = false
         }
-    })
+    });
     return status;
-}
+})
 
+arrayOfElements.map((element) => {
+    return { ...element, subElements: element.subElements.filter((subElement) => subElement.surname === 1) }
+})
 
-
-console.log(compare2(state, 5));
+console.log(arr);
